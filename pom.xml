@@ -49,6 +49,8 @@
 	</dependencies>
 
 	<build>
+
+		<finalName>decadevs-docker-tolulope</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

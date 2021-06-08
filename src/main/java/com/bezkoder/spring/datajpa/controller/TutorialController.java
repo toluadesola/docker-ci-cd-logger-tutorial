@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +31,14 @@ public class TutorialController {
 	@Autowired
 	TutorialRepository tutorialRepository;
 
+
+	final Logger logger = LoggerFactory.getLogger(TutorialController.class);
+
 	@GetMapping("/tutorials")
 	public ResponseEntity<List<Tutorial>> getAllTutorials(@RequestParam(required = false) String title) {
+		logger.info("Inside the getAllTutorials method");
 		try {
-			List<Tutorial> tutorials = new ArrayList<Tutorial>();
+			List<Tutorial> tutorials = new ArrayList<>();
 
 			if (title == null)
 				tutorialRepository.findAll().forEach(tutorials::add);
@@ -56,6 +62,7 @@ public class TutorialController {
 		if (tutorialData.isPresent()) {
 			return new ResponseEntity<>(tutorialData.get(), HttpStatus.OK);
 		} else {
+			logger.error("id, {}, does not exist, ", id);
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
